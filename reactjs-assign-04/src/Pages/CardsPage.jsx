@@ -1,45 +1,116 @@
 import { useEffect, useState } from "react"
-
+import { RotatingLines } from "react-loader-spinner";
+import { Link } from "react-router-dom";
 
 function CardsPage() {
-    let [count , setCount] = useState(1)
+    const [posts , setPosts] = useState([])
+    const [isLoading, setIsLoading] = useState(true);
+    const [totalPost, settotalPost] = useState(9);
 
     useEffect(() => {
-        
-    } , [])
 
+        const timer = setTimeout(() => {
+
+            let url = 'https://jsonplaceholder.typicode.com/posts'
+            
+            fetch(url).then((response) => response.json()).then((data) => {
+                setPosts( data.slice(0, totalPost) )
+                setIsLoading(false)
+            })
+
+        }, 700);
+
+    } , [totalPost])
+
+    if (isLoading) {
+        return (
+            <div className="flex justify-center">
+                <RotatingLines
+                    visible={true}
+                    height="70"
+                    width="70"
+                    color="white"
+                    strokeWidth="5"
+                    animationDuration="1"
+                    ariaLabel="rotating-lines-loading"
+                    wrapperStyle={{}}
+                    wrapperClass=""
+                />
+            </div>
+        )
+    }
+
+    const renderStars = (count) => {
+        let stars = [];
+        for (let i = 0; i < 5; i++) {
+        stars.push(
+            <i
+            key={i}
+            className={`fa-solid fa-star text-[14px] ${
+                i < count ? "text-yellow-400" : "text-gray-300"
+            }`}
+            ></i>
+        );
+        }
+        return stars;
+    };
 
     return (
-        
-        <div>
-            <h1>Counter App</h1>
-            <button>-</button>
-            <p>{count}</p>
-            <button>+</button>
-        </div>
+        <section className="flex flex-col items-center px-5 md:px-20">
 
+            {/* Cards */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+
+                {posts.map((post) => (
+                    <Link to={`/post/${post.id}`} key={post.id}>
+                        <div key={post.id} className="relative flex flex-col justify-between bg-white rounded-2xl p-6 shadow-lg hover:shadow-2xl cursor-pointer transition duration-400 hover:scale-[1.02] ">
+                        
+                            {/* Post Number Badge */}
+                            <div className="absolute top-4 left-4 bg-blue-500 text-white px-3 py-1 rounded-full font-bold text-sm">
+                                Post# {post.id}
+                            </div>
+
+                            {/* Post Title */}
+                            <h2 className="text-xl font-bold mt-10 text-gray-800">{post.title}</h2>
+
+                            {/* Rating */}
+                            <div className="flex justify-between  my-5">
+                                <div>
+                                    <i className="fa-solid fa-circle-user text-2xl mr-2"></i>
+                                    <span className="font-semibold">- - -</span>
+                                </div>
+                                <div className="space-x-1">
+                                    {renderStars(Math.random() * 7)}
+                                </div>
+                            </div>
+
+                            <div className="flex gap-12">
+                                {/* Read More Button */}
+                                <button className="bg-blue-500 text-white px-4 py-2 rounded-lg cursor-pointer hover:bg-blue-600 w-full font-semibold">
+                                    Read More
+                                </button>
+
+                                {/* Action Icons */}
+                                <div className="flex items-center gap-4 text-gray-500 text-lg">
+                                    <i className="fa-solid fa-heart hover:text-red-500 cursor-pointer transition"></i>
+                                    <i className="fa-solid fa-comment hover:text-blue-500 cursor-pointer transition"></i>
+                                    <i className="fa-solid fa-share hover:text-green-500 cursor-pointer transition"></i>
+                                </div>
+                            </div>
+
+                        </div>
+                    </Link>
+                ))}
+
+            </div>
+
+            <button onClick={() => settotalPost(totalPost + 5)} 
+            className="mt-15 bg-blue-600 text-white rounded-full w-80 px-5 py-2.5 cursor-pointer transition duration-400 hover:scale-105">Load More</button>
+
+        </section>
     )
 
 }
 
 
 export default CardsPage
-
-{/* <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-
-    <div className="bg-white p-6 rounded-xl shadow hover:shadow-lg transition">
-        <h2 className="text-2xl font-semibold mb-2">Card One</h2>
-        <p className="text-gray-600">This card describes the first feature.</p>
-    </div>
-
-    <div className="bg-white p-6 rounded-xl shadow hover:shadow-lg transition">
-        <h2 className="text-2xl font-semibold mb-2">Card Two</h2>
-        <p className="text-gray-600">This card describes the second feature.</p>
-    </div>
-
-    <div className="bg-white p-6 rounded-xl shadow hover:shadow-lg transition">
-        <h2 className="text-2xl font-semibold mb-2">Card Three</h2>
-        <p className="text-gray-600">This card describes the third feature.</p>
-    </div>
-
-</div> */}

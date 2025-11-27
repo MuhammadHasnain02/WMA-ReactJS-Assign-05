@@ -6,7 +6,7 @@ function HeroSection() {
 
 
     return (
-        <div className="text-center text-white pb-12 px-4">
+        <div className="text-center text-white mb-20">
             <h1 className="text-4xl md:text-[42px] font-extrabold tracking-wide drop-shadow-lg">
                 Welcome to Post Handler
             </h1>
