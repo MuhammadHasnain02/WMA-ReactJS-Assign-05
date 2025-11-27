@@ -62,8 +62,8 @@ function CardsPage() {
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
 
                 {posts.map((post) => (
-                    <Link to={`/post/${post.id}`} key={post.id}>
-                        <div key={post.id} className="relative flex flex-col justify-between bg-white rounded-2xl p-6 shadow-lg hover:shadow-2xl cursor-pointer transition duration-400 hover:scale-[1.02] ">
+                    <Link to={`/post/${post.id}`} key={post.id} className="h-full">
+                        <div key={post.id} className="relative flex flex-col justify-between bg-gray-200 rounded-2xl p-6 shadow-lg hover:shadow-2xl cursor-pointer transition duration-400 hover:scale-[1.02] h-full">
                         
                             {/* Post Number Badge */}
                             <div className="absolute top-4 left-4 bg-blue-500 text-white px-3 py-1 rounded-full font-bold text-sm">
@@ -74,7 +74,7 @@ function CardsPage() {
                             <h2 className="text-xl font-bold mt-10 text-gray-800">{post.title}</h2>
 
                             {/* Rating */}
-                            <div className="flex justify-between  my-5">
+                            <div className="flex justify-between my-5">
                                 <div>
                                     <i className="fa-solid fa-circle-user text-2xl mr-2"></i>
                                     <span className="font-semibold">- - -</span>
@@ -105,7 +105,7 @@ function CardsPage() {
             </div>
 
             <button onClick={() => settotalPost(totalPost + 5)} 
-            className="mt-15 bg-blue-600 text-white rounded-full w-80 px-5 py-2.5 cursor-pointer transition duration-400 hover:scale-105">Load More</button>
+            className="border border-gray-400 mt-15 bg-gradient-to-r from-blue-500 to-purple-500 text-white rounded-full w-80 px-5 py-2.5 cursor-pointer transition duration-400 hover:scale-105">Load More</button>
 
         </section>
     )
